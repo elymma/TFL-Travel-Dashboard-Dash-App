@@ -1,0 +1,55 @@
+body {background-color: cornsilk}
+
+h1 {
+    color: black;
+    font-family: "Century Gothic";
+
+}
+
+h4 {
+    color: darkgrey;
+    font-style: italic;
+    font-family: "Century Gothic"
+
+}
+h5 {
+    font-family: "Century Gothic"
+
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+
+ul {
+    font-family: "Century Gothic"
+}
+
+ol {
+    font-family: "Century Gothic"
+}
+
+li {
+}
+
+a {
+}
+
+table {
+}
+
+tr {
+}
+
+th {
+}
+
+td {
+}
+
+footer { font-family: "Century Gothic"
+
+}
