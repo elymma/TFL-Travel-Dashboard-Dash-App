@@ -18,7 +18,8 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 df = pd.read_excel("cleaned_tfl_dataset_EDIT.xlsx")
 
-fig_line = px.line(df, x="Period ending", y="Journeys (m)", color="Travel Mode", title="Distribution of TFL Travel Modes")
+fig_line = px.line(df, x="Period ending", y="Journeys (m)", color="Travel Mode",
+                   title="Distribution of TFL Travel Modes")
 
 fig_pie = px.pie(df, values="Journeys (m)", names="Travel Mode")
 # ------------------------------------------------------------------------
@@ -30,7 +31,8 @@ header = [
         dbc.Button("logo", outline=True, color="primary"),
     ), width=2),
     dbc.Col(html.Div([
-        dbc.Button("message", outline=True, color="primary"), dbc.Button("profile", outline=True, color="primary"), dbc.Button("log out", outline=True, color="primary"),
+        dbc.Button("message", outline=True, color="primary"), dbc.Button("profile", outline=True, color="primary"),
+        dbc.Button("log out", outline=True, color="primary"),
     ],
     ), width=3),
 ]
@@ -40,7 +42,6 @@ app.layout = html.Div(children=[
     dbc.Row(
         header,
         justify="between",
-
 
     ),
 
@@ -66,13 +67,9 @@ app.layout = html.Div(children=[
     ),
 
     dbc.Row([
-
-        dcc.Graph(id="graph", figure=fig_line),
-        dcc.Graph(id="graph_two", figure=fig_pie),
-    ],
-
-
-    ),
+        dbc.Col(html.Div([dcc.Graph(id="graph", figure=fig_line)]), width=6),
+        dbc.Col(html.Div([dcc.Graph(id="graph_two", figure=fig_pie)]), width=5)
+    ]),
 
     dbc.Row(
 
@@ -87,9 +84,7 @@ app.layout = html.Div(children=[
                           {'label': 'TFL Rail', 'value': 'TFL Rail'},
                       ],
 
-                      ),
-
-    ),
+                      ), ),
 
 ])
 
