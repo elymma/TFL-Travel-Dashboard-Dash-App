@@ -40,9 +40,28 @@ header = [
 app.layout = html.Div(children=[
 
     dbc.Row(
+        html.Br()
+    ),
+
+    dbc.Row(
         header,
         justify="between",
 
+    ),
+
+    dbc.Row(
+        html.Br()
+    ),
+
+    dbc.Row(
+        html.Div([
+            html.H1("TFL TRAVEL DASHBOARD")
+        ], style={"border": "2px black solid"})
+
+    ),
+
+    dbc.Row(
+        html.Br()
     ),
 
     dbc.Row(
