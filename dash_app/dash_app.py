@@ -22,6 +22,8 @@ fig_line = px.line(df, x="Period ending", y="Journeys (m)", color="Travel Mode",
                    title="Travel Mode Usage Over Time")
 
 fig_pie = px.pie(df, values="Journeys (m)", names="Travel Mode", title="Distribution of Travel Modes")
+
+fig_box = px.box(df, x="Period ending", y="Journeys (m)", color="Travel Mode", title="Variation in Travel Modes")
 # ------------------------------------------------------------------------
 # app layout
 
@@ -36,6 +38,7 @@ header = [
     ],
     ), width=3),
 ]
+
 
 dropdown = [
     dcc.Dropdown(id="select_year",
@@ -57,8 +60,9 @@ dropdown = [
                  ),
 ]
 
-checklist = [
-    dcc.Checklist(id="select_travel_mode2",
+
+checklist = {
+    dcc.Checklist(id="select_travel_mode",
                   options=[
                       {'label': 'Bus', 'value': 'Bus'},
                       {'label': 'Underground', 'value': 'Underground'},
@@ -71,7 +75,7 @@ checklist = [
 
                   ),
 
-]
+}
 
 app.layout = html.Div(children=[
 
@@ -99,14 +103,15 @@ app.layout = html.Div(children=[
     ),
 
     dbc.Row([
-        dbc.Col(dropdown),
-        dbc.Col(html.Div([dcc.Graph(id="graph_two", figure=fig_pie)]), width=5),
+        # dbc.Col(dropdown),
+        dbc.Col(html.Div([dcc.Graph(id="graph_three", figure=fig_box)]), width=6),
+        dbc.Col(html.Div([dcc.Graph(id="graph_two", figure=fig_pie)]), width=6),
         # dbc.Col(checklist)
     ]),
 
     dbc.Row([
         # dbc.Col(dropdown),
-        dbc.Col(html.Div([dcc.Graph(id="graph", figure=fig_line)]), width=10),
+        dbc.Col(html.Div([dcc.Graph(id="graph", figure=fig_line)]), width=12),
         # dbc.Col(checklist)
     ]),
 
