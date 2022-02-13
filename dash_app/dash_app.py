@@ -23,7 +23,7 @@ fig_line = px.line(df, x="Period ending", y="Journeys (m)", color="Travel Mode",
 
 fig_pie = px.pie(df, values="Journeys (m)", names="Travel Mode", title="Distribution of Travel Modes")
 
-fig_box = px.box(df, x="Period ending", y="Journeys (m)", color="Travel Mode", title="Variation in Travel Modes")
+fig_box = px.box(df, x="Travel Mode", y="Journeys (m)", color="Travel Mode", title="Variation in Travel Modes")
 # ------------------------------------------------------------------------
 # app layout
 
@@ -129,3 +129,4 @@ def update_output_div(input_value):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
