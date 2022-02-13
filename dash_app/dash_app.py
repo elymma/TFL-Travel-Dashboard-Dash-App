@@ -111,7 +111,8 @@ app.layout = html.Div(children=[
 
     dbc.Row([
         # dbc.Col(dropdown),
-        dbc.Col(html.Div([dcc.Graph(id="graph", figure=fig_line)]), width=12),
+        dbc.Col(html.Div([dcc.Graph(id="graph", figure=fig_line)]), width=8),
+        dbc.Col(html.Div([html.H1("LAST GRAPH")], style={"border": "1px black solid"}))
         # dbc.Col(checklist)
     ]),
 
