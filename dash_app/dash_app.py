@@ -29,14 +29,18 @@ fig_box = px.box(df, x="Travel Mode", y="Journeys (m)", color="Travel Mode", tit
 
 header = [
 
-    dbc.Col(html.Div(
-        dbc.Button("logo", outline=True, color="primary"),
-    ), width=2),
-    dbc.Col(html.Div([
-        dbc.Button("message", outline=True, color="primary"), dbc.Button("profile", outline=True, color="primary"),
-        dbc.Button("log out", outline=True, color="primary"),
-    ],
-    ), width=3),
+    dbc.Row([
+
+        dbc.Col(html.Div(
+            dbc.Button("logo", outline=False, color="secondary"),
+        ), lg=2),
+        dbc.Col(html.Div([
+            dbc.Button("message", outline=False, color="secondary"),
+            dbc.Button("profile", outline=False, color="secondary"),
+            dbc.Button("log out", outline=False, color="secondary"),
+        ],
+        ), lg=4),
+    ])
 ]
 
 dropdown = [
@@ -75,58 +79,71 @@ checklist = {
 
 }
 
-app.layout = html.Div(children=[
+background = "#DCDCDC"
 
-    dbc.Row(
-        html.Br()
-    ),
+app.layout = html.Div(style={"backgroundColor": background}, children=[
 
-    dbc.Row(
-        header,
-        justify="between",
-    ),
+    dbc.Container([
 
-    dbc.Row(
-        html.Br()
-    ),
+        dbc.Row(
+            html.Br()
+        ),
 
-    dbc.Row(
-        html.Div([
-            html.H1("TFL TRAVEL DASHBOARD")
-        ], style={"border": "1px black solid"})
-    ),
+        dbc.Row(
+            header,
+            justify="between",
+        ),
 
-    dbc.Row(
-        html.Br()
-    ),
+        dbc.Row(
+            html.Br()
+        ),
 
-    dbc.Row([
-        dbc.Col(dropdown),
-        dbc.Col(html.Div(id="dd_output_container"))
+        dbc.Row(
+            dbc.Col(
+                html.Div([
+                    html.H1("TFL TRAVEL DASHBOARD")
+                ]), width={"size": 6},
 
-    ]),
+            )
 
-    dbc.Row([
-        dbc.Col(html.Div([dcc.Graph(id="graph_three", figure=fig_box)]), lg=6, xs=12),
-        dbc.Col(html.Div([dcc.Graph(id="graph_two", figure=fig_pie)]), lg=6, xs=12),
-        # dbc.Col(checklist)
-    ]),
+        ),
 
-    dbc.Row([
-        # dbc.Col(dropdown),
-        dbc.Col(html.Div([dcc.Graph(id="graph", figure=fig_line)]), lg=8, xs=12),
-        dbc.Col(html.Div([html.H1("LAST GRAPH")], style={"border": "1px black solid"}))
-        # dbc.Col(checklist)
-    ]),
+        dbc.Row(
+            html.Br()
+        ),
 
+        dbc.Row([
+            dbc.Col(dropdown),
+            dbc.Col(html.Div(id="dd_output_container"))
+
+        ]),
+
+        dbc.Row([
+            dbc.Col(html.Div([dcc.Graph(id="graph_three", figure=fig_box)]), lg=6, xs=12),
+            dbc.Col(html.Div([dcc.Graph(id="graph_two", figure=fig_pie)]), lg=6, xs=12),
+            # dbc.Col(checklist)
+        ]),
+
+        dbc.Row(
+            html.Br()
+        ),
+
+        dbc.Row([
+            # dbc.Col(dropdown),
+            dbc.Col(html.Div([dcc.Graph(id="graph", figure=fig_line)]), lg=8, xs=12),
+            dbc.Col(html.Div([html.H1("LAST GRAPH")], style={"border": "1px black solid"}))
+            # dbc.Col(checklist)
+        ]),
+
+    ])
 ])
 
 
-@app.callback(
-    Output(component_id="dd_output_container", component_property="children"),
-    Input(component_id="select_year", component_property="value")
-
-)
+# @app.callback(
+#    Output(component_id="dd_output_container", component_property="children"),
+#    Input(component_id="select_year", component_property="value")
+#
+# )
 def update_output_div(input_value):
     return 'Output: {}'.format(input_value)
 
