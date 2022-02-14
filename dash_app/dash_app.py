@@ -39,7 +39,6 @@ header = [
     ), width=3),
 ]
 
-
 dropdown = [
     dcc.Dropdown(id="select_year",
                  options=[
@@ -59,7 +58,6 @@ dropdown = [
                  style={'width': '40%'}
                  ),
 ]
-
 
 checklist = {
     dcc.Checklist(id="select_travel_mode",
@@ -103,15 +101,20 @@ app.layout = html.Div(children=[
     ),
 
     dbc.Row([
-        # dbc.Col(dropdown),
-        dbc.Col(html.Div([dcc.Graph(id="graph_three", figure=fig_box)]), width=6),
-        dbc.Col(html.Div([dcc.Graph(id="graph_two", figure=fig_pie)]), width=6),
+        dbc.Col(dropdown),
+        dbc.Col(html.Div(id="dd_output_container"))
+
+    ]),
+
+    dbc.Row([
+        dbc.Col(html.Div([dcc.Graph(id="graph_three", figure=fig_box)]), lg=6, xs=12),
+        dbc.Col(html.Div([dcc.Graph(id="graph_two", figure=fig_pie)]), lg=6, xs=12),
         # dbc.Col(checklist)
     ]),
 
     dbc.Row([
         # dbc.Col(dropdown),
-        dbc.Col(html.Div([dcc.Graph(id="graph", figure=fig_line)]), width=8),
+        dbc.Col(html.Div([dcc.Graph(id="graph", figure=fig_line)]), lg=8, xs=12),
         dbc.Col(html.Div([html.H1("LAST GRAPH")], style={"border": "1px black solid"}))
         # dbc.Col(checklist)
     ]),
@@ -119,14 +122,14 @@ app.layout = html.Div(children=[
 ])
 
 
-# @app.callback(
-#    Output(component_id='my-output', component_property='children'),
-#    Input(component_id='my-input', component_property='value')
-# )
+@app.callback(
+    Output(component_id="dd_output_container", component_property="children"),
+    Input(component_id="select_year", component_property="value")
+
+)
 def update_output_div(input_value):
     return 'Output: {}'.format(input_value)
 
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
