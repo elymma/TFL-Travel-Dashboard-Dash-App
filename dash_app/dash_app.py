@@ -2,7 +2,7 @@
 from pathlib import Path
 
 import dash
-from dash import html
+from dash import html, Output, Input, dcc
 from dash import dcc
 import dash_bootstrap_components as dbc
 import pandas as pd
@@ -139,11 +139,11 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
 ])
 
 
-# @app.callback(
-#    Output(component_id="dd_output_container", component_property="children"),
-#    Input(component_id="select_year", component_property="value")
-#
-# )
+@app.callback(
+    Output(component_id="dd_output_container", component_property="children"),
+    Input(component_id="select_year", component_property="value")
+
+ )
 def update_output_div(input_value):
     return 'Output: {}'.format(input_value)
 
