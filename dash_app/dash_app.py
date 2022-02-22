@@ -61,7 +61,7 @@ header = [
 dropdown = [
     dcc.Dropdown(id="select-year",
                  options=[{"label": x, "value": x} for x in df.years_list],
-                 multi=True,
+                 multi=False,
                  value=2021,
                  style={'width': '40%'}
                  ),
@@ -108,6 +108,19 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
         ),
 
         dbc.Row([
+            # dbc.Col(dropdown),
+            dbc.Col(html.Div([dcc.Graph(id="line", figure=fig_line)], style={"border": "1px Gainsboro solid"}), lg=8,
+                    xs=12),
+            dbc.Col(html.Div(
+                html.Div(id="stats-card", style={"border": "1px Gainsboro solid"})))
+            # dbc.Col(checklist)
+        ]),
+
+        dbc.Row(
+            html.Br()
+        ),
+
+        dbc.Row([
             dbc.Col(html.Div([dcc.Graph(id="box", figure=fig_box)], style={"border": "1px Gainsboro solid"}),
                     lg=6,
                     xs=12),
@@ -121,32 +134,28 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
             html.Br()
         ),
 
-        dbc.Row([
-            # dbc.Col(dropdown),
-            dbc.Col(html.Div([dcc.Graph(id="line", figure=fig_line)], style={"border": "1px Gainsboro solid"}), lg=8,
-                    xs=12),
-            dbc.Col(html.Div(
-                html.Div(id="stats-card", children=[html.H1("STATS")], style={"border": "1px Gainsboro solid"})))
-            # dbc.Col(checklist)
-        ]),
-
-        dbc.Row(
-            html.Br()
-        ),
-
     ])
 ])
 
 
-@app.callback(Output("box", "figure"), [Input("select-year", "value")])
-def update_recycling_chart(year_select):
+@app.callback([Output("box", "figure"),
+               Output("pie", "figure"),
+               Output("line", "figure")],
+              Input("select-year", "value"))
+def update_tfl_chart(year_select):
+    # create a copy of dataset
+    df.chosen_year = df.copy()
     # select data for chosen year
-    df.chosen_year = df[df["Period ending"].dt.year == year_select]
-    # create figure
-    fig_box_update = px.box(df.chosen_year, x="Travel Mode", y="Journeys (m)", color="Travel Mode", title="Variation in Travel Modes")
-    # update figure and add traces
-    fig_box_update.add_trace(year_select)
-    return fig_box_update
+    df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year == year_select]
+    # create figures
+    fig_box_update = px.box(df.chosen_year, x="Travel Mode", y="Journeys (m)", color="Travel Mode",
+                            title="Variation in Travel Modes for {}".format(year_select))
+    fig_pie_update = px.pie(df.chosen_year, values="Journeys (m)", names="Travel Mode",
+                            title="Distribution of Travel Modes for {}".format(year_select))
+    fig_line_update = px.line(df.chosen_year, x="Period ending", y="Journeys (m)", color="Travel Mode",
+                              title="Travel Mode Usage Over Time for {}".format(year_select))
+
+    return fig_box_update, fig_pie_update, fig_line_update
 
 
 # @app.callback(
