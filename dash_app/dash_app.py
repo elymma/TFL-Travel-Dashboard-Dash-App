@@ -61,15 +61,18 @@ header = [
 dropdown = [
     dcc.Dropdown(id="select-year",
                  options=[{"label": x, "value": x} for x in df.years_list],
-                 multi=False,
-                 value=2021,
+                 multi=True,
+                 value=df.years_list[0],
                  style={'width': '40%'}
                  ),
 ]
 
 checklist = [
-    dcc.Checklist(id="select_travel_mode",
+    dcc.Checklist(id="select-travel-mode",
                   options=[{"label": x, "value": x} for x in df.transport_list],
+                  labelStyle={'display': 'inline-block'},
+                  style={'width': '60%'}
+
                   ),
 ]
 
@@ -141,12 +144,17 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
 @app.callback([Output("box", "figure"),
                Output("pie", "figure"),
                Output("line", "figure")],
-              Input("select-year", "value"))
-def update_tfl_chart(year_select):
+              [Input("select-year", "value"), Input("select-travel-mode", "value")])
+def update_tfl_chart(year_select, travel_select):
     # create a copy of dataset
     df.chosen_year = df.copy()
     # select data for chosen year
-    df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year == year_select]
+    if type(year_select) != int:
+        # when there is a list of year values
+        df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year .isin(year_select)]
+    else:
+        # when there is only on year value
+        df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year == year_select]
     # create figures
     fig_box_update = px.box(df.chosen_year, x="Travel Mode", y="Journeys (m)", color="Travel Mode",
                             title="Variation in Travel Modes for {}".format(year_select))
@@ -158,16 +166,18 @@ def update_tfl_chart(year_select):
     return fig_box_update, fig_pie_update, fig_line_update
 
 
-# @app.callback(
-#    [Output("stats-card", "children"),
-#     Output("box", "figure")],
-#    Input("select_year", "value")
-# )
-# def render_output_panel(year_select):
-
-
-# def update_output_div(input_value):
-#    return 'Output: {}'.format(input_value)
+# @app.callback(Output("line", "figure"),
+#              Input("select-travel-mode", "value"))
+# def update_travel_mode(travel_select):
+#    # create a copy of dataset
+#    df.chosen_travel = df.copy()
+#    # select data for chosen travel mode
+#    df.chosen_travel = df.chosen_travel[df.chosen_travel["Travel Mode"].str.contains(travel_select)]
+#    # create figures
+#    fig_line_update2 = px.line(df.chosen_travel, x="Period ending", y="Journeys (m)", color="Travel Mode",
+#                               title="Travel Mode Usage Over Time for {}".format(travel_select))
+#
+#    return fig_line_update2
 
 
 if __name__ == '__main__':
