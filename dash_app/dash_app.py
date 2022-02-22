@@ -157,11 +157,11 @@ def update_tfl_chart(year_select, travel_select):
         df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year == year_select]
     # create figures
     fig_box_update = px.box(df.chosen_year, x="Travel Mode", y="Journeys (m)", color="Travel Mode",
-                            title="Variation in Travel Modes for {}".format(year_select))
+                            title="Variation in Travel Modes<br><sup>Year(s) shown: {}</sup>".format(year_select))
     fig_pie_update = px.pie(df.chosen_year, values="Journeys (m)", names="Travel Mode",
-                            title="Distribution of Travel Modes for {}".format(year_select))
+                            title="Distribution of Travel Modes<br><sup>Year(s) shown: {}</sup>".format(year_select))
     fig_line_update = px.line(df.chosen_year, x="Period ending", y="Journeys (m)", color="Travel Mode",
-                              title="Travel Mode Usage Over Time for {}".format(year_select))
+                              title="Travel Mode Usage Over Time<br><sup>Year(s) shown: {}</sup>".format(year_select))
 
     return fig_box_update, fig_pie_update, fig_line_update
 
