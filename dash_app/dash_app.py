@@ -29,7 +29,6 @@ df.by_year_sums.reset_index(level=0, inplace=True)
 # create a list of the years
 df.years_list = df.by_year_sums["Period ending"].tolist()
 
-
 # create charts
 fig_line = px.line(df, x="Period ending", y="Journeys (m)", color="Travel Mode",
                    title="Travel Mode Usage Over Time")
@@ -60,7 +59,7 @@ header = [
 ]
 
 dropdown = [
-    dcc.Dropdown(id="select_year",
+    dcc.Dropdown(id="select-year",
                  options=[{"label": x, "value": x} for x in df.years_list],
                  multi=True,
                  value=2021,
@@ -126,7 +125,8 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
             # dbc.Col(dropdown),
             dbc.Col(html.Div([dcc.Graph(id="line", figure=fig_line)], style={"border": "1px Gainsboro solid"}), lg=8,
                     xs=12),
-            dbc.Col(html.Div([html.H1("LAST GRAPH")], style={"border": "1px Gainsboro solid"}))
+            dbc.Col(html.Div(
+                html.Div(id="stats-card", children=[html.H1("STATS")], style={"border": "1px Gainsboro solid"})))
             # dbc.Col(checklist)
         ]),
 
@@ -138,13 +138,27 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
 ])
 
 
-@app.callback(
-    [Output(component_id="dd_output_container", component_property="children"),
-     Output(component_id="box", component_property="figure")],
-    Input(component_id="select_year", component_property="value")
-)
-def update_output_div(input_value):
-    return 'Output: {}'.format(input_value)
+@app.callback(Output("box", "figure"), [Input("select-year", "value")])
+def update_recycling_chart(year_select):
+    # select data for chosen year
+    df.chosen_year = df[df["Period ending"].dt.year == year_select]
+    # create figure
+    fig_box_update = px.box(df.chosen_year, x="Travel Mode", y="Journeys (m)", color="Travel Mode", title="Variation in Travel Modes")
+    # update figure and add traces
+    fig_box_update.add_trace(year_select)
+    return fig_box_update
+
+
+# @app.callback(
+#    [Output("stats-card", "children"),
+#     Output("box", "figure")],
+#    Input("select_year", "value")
+# )
+# def render_output_panel(year_select):
+
+
+# def update_output_div(input_value):
+#    return 'Output: {}'.format(input_value)
 
 
 if __name__ == '__main__':
