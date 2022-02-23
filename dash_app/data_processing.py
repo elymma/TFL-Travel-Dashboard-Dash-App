@@ -13,28 +13,36 @@ df.periods_list = df["Period ending"].tolist()
 
 year = [2020, 2021]
 
-# df.chosen_year = df.copy()
+df.chosen_year = df.copy()
 
 # select data for chosen year
 # df.chosen_year = df[df["Period ending"].dt.year == year[0]]
 # fig_box = px.box(df.chosen_year, x="Travel Mode", y="Journeys (m)", color="Travel Mode", title="Variation in Travel Modes for {}".format(year))
 # fig_box.show()
 
-# if type(year) != int:
-#    # when there is a list of year values
-#    df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year.isin(year)]
-# else:
-#    # when there is only on year value
-#    df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year == year]
+year = [2010, 2021]
 
-# print(df.chosen_year)
+if type(year) != int:
+    # when there is a list of year values
+    df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year.isin(year)]
+else:
+    # when there is only on year value
+    df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year == year]
 
-df.total_travel = []
-travel = []
-print(len(travel))
-for x in travel:
-    df.chosen_travel = df[df["Travel Mode"].str.contains(x)]
-    df.total_travel.append(df.chosen_travel)
+print(df.chosen_year)
+
+desc_order = df.chosen_year.sort_values("Journeys (m)", ascending=False)
+asc_order = df.chosen_year.sort_values("Journeys (m)", ascending=True)
+
+print("highest:{}".format(desc_order.iloc[0, :]))
+print("lowest:{}".format(asc_order.iloc[0, :]))
+
+# df.total_travel = []
+# travel = []
+# print(len(travel))
+# for x in travel:
+#    df.chosen_travel = df[df["Travel Mode"].str.contains(x)]
+#    df.total_travel.append(df.chosen_travel)
 
 
 # print(df.total_travel)

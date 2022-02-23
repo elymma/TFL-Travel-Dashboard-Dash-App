@@ -63,7 +63,7 @@ dropdown = [
                  options=[{"label": x, "value": x} for x in df.years_list],
                  multi=True,
                  value=df.years_list[0],
-                 style={'width': '40%'}
+                 style={'width': '60%'}
                  ),
 ]
 
@@ -95,15 +95,10 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
             html.Br()
         ),
 
-        dbc.Row(
-            html.Br()
-        ),
-
         dbc.Row([
             dbc.Col(dropdown, lg=6, xs=12),
             dbc.Col(html.Div(id="dd_output_container")),
-            dbc.Col(checklist)
-
+            # dbc.Col(checklist)
         ]),
 
         dbc.Row(
@@ -111,12 +106,10 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
         ),
 
         dbc.Row([
-            # dbc.Col(dropdown),
             dbc.Col(html.Div([dcc.Graph(id="line", figure=fig_line)], style={"border": "1px Gainsboro solid"}), lg=8,
                     xs=12),
             dbc.Col(html.Div(
                 html.Div(id="stats-card", style={"border": "1px Gainsboro solid"})))
-            # dbc.Col(checklist)
         ]),
 
         dbc.Row(
@@ -130,7 +123,6 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
             dbc.Col(html.Div([dcc.Graph(id="pie", figure=fig_pie)], style={"border": "1px Gainsboro solid"}),
                     lg=6,
                     xs=12),
-            # dbc.Col(checklist)
         ]),
 
         dbc.Row(
@@ -143,19 +135,21 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
 
 @app.callback([Output("box", "figure"),
                Output("pie", "figure"),
-               Output("line", "figure")],
-              [Input("select-year", "value"), Input("select-travel-mode", "value")])
-def update_tfl_chart(year_select, travel_select):
+               Output("line", "figure"),
+               Output("stats-card", "children")],
+              Input("select-year", "value"))
+def update_tfl_chart(year_select):
     # create copy of data set
-    df.chosen_travel_mode = df.copy()
+    # df.chosen_travel_mode = df.copy()
     # select data for chosen travel mode
-    df.total_travel = []
-    if travel_select is not None:
-        for x in travel_select:
-            df.chosen_travel = df[df["Travel Mode"].str.contains(x)]
-            df.total_travel.append(df.chosen_travel)
+    # df.total_travel = []
+    # if travel_select is not None:
+    #    for x in travel_select:
+    #        df.chosen_travel = df[df["Travel Mode"].str.contains(x)]
+    #        df.total_travel.append(df.chosen_travel)
     # create a copy of the travel-sorted dataset
     # df.chosen_year = df.total_travel.copy()
+
     # create a copy of dataset
     df.chosen_year = df.copy()
     # select data for chosen year
@@ -172,22 +166,32 @@ def update_tfl_chart(year_select, travel_select):
                             title="Distribution of Travel Modes<br><sup>Year(s) shown: {}</sup>".format(year_select))
     fig_line_update = px.line(df.chosen_year, x="Period ending", y="Journeys (m)", color="Travel Mode",
                               title="Travel Mode Usage Over Time<br><sup>Year(s) shown: {}</sup>".format(year_select))
+    # order data in descending/ascending order
+    desc_order = df.chosen_year.sort_values("Journeys (m)", ascending=False)
+    asc_order = df.chosen_year.sort_values("Journeys (m)", ascending=True)
+    # find the highest and lowest recording periods
+    max_journeys = desc_order.iloc[0, 4]
+    max_period_b = desc_order.iloc[0, 1]
+    max_period_e = desc_order.iloc[0, 2]
+    max_mode = desc_order.iloc[0, 3]
 
-    return fig_box_update, fig_pie_update, fig_line_update
+    lowest = asc_order.iloc[0, 4]
+    # create stats card
+    stats_card = dbc.Card(className="bg-dark text-light", children=[
+        dbc.CardBody([
+            html.H4(year_select, id="card-name", className="card-title"),
+            html.Br(),
+            html.H6("High is:", className="card-title"),
+            html.H4("The recording period with the most journeys was {} to {} with {} million journeys using the {}".format(max_period_b, max_period_e, max_journeys, max_mode), className="card-text text-light"),
+            html.Br(),
+            html.H6("Low is:", className="card-title"),
+            html.H4("lowest {}".format(lowest), className="card-text text-light"),
+            html.Br(),
 
+        ])
+    ])
 
-# @app.callback(Output("line", "figure"),
-#              Input("select-travel-mode", "value"))
-# def update_travel_mode(travel_select):
-#    # create a copy of dataset
-#    df.chosen_travel = df.copy()
-#    # select data for chosen travel mode
-#    df.chosen_travel = df.chosen_travel[df.chosen_travel["Travel Mode"].str.contains(travel_select)]
-#    # create figures
-#    fig_line_update2 = px.line(df.chosen_travel, x="Period ending", y="Journeys (m)", color="Travel Mode",
-#                               title="Travel Mode Usage Over Time for {}".format(travel_select))
-#
-#    return fig_line_update2
+    return fig_box_update, fig_pie_update, fig_line_update, stats_card
 
 
 if __name__ == '__main__':

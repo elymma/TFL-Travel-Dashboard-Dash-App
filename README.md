@@ -39,6 +39,9 @@ focus on the actual data and not unnecessary chartjunk.
 ##### Evaluation 
 ##### Did it meet the design choices?
 ##### Strengths and weaknesses?
+* Weakness: when multiple non-consecutive years are chosen to be displayed (e.g. 2010, 2014 and 2018), they are joined 
+by a straight line that does not accurately represent the usage over the unselected time period. This could be improved 
+by only allowing the user to select consecutive time periods e.g. 2010, 2011 and 2013 but not 2010, 2013 and 2017.
 ##### Any improvements?
 
 #### Visualisation 2: [Stats Chart Title]
