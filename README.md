@@ -34,7 +34,7 @@ time allows the data to be viewed in more detail by the user.
 * The minimum time period that can be displayed is one year. This is as this is it displays the yearly variation in usage, 
 an important aspect to consider when making a judgement based on TFL usage.
 * There are no additional chart elements shown beyond the title, years displayed, axis labels and key. This keeps the
-focus on the actual data and not unnecessary chartjunk.
+focus on the actual data and not unnecessary chart junk.
 ##### Evaluation 
 ##### Did it meet the design choices?
 Yes, this chart allows the user to see the variation in usage for each travel mode over a chosen time period.
@@ -44,7 +44,7 @@ travel modes.
 * Weakness: when multiple non-consecutive years are chosen to be displayed (e.g. 2010, 2014 and 2018), they are joined 
 by a straight line that does not accurately represent the usage over the unselected time period. This could be improved 
 by only allowing the user to select consecutive time periods e.g. 2010, 2011 and 2013 but not 2010, 2013 and 2017.
-* Weakness: the user cannot isolate data according to travel mode. This would be usfeul for TFL Associated Employees 
+* Weakness: the user cannot isolate data according to travel mode. This would be useful for TFL Associated Employees 
 only interested in specific travel modes. This could be improved by adding a checklist with a callback to select data 
 for individual travel modes.
 
@@ -78,7 +78,7 @@ period could be displayed for each travel mode and compared to the values of the
 #### Visualisation 3: Variation in Travel Modes
 ##### Target audience:
 * TFL Associated Employee: As a TFL Associated Employee I would like to know how much the usage of each travel mode 
-varies over a chosen time period so that I can decide how the distribution of emplyees will likely need to be adjusted 
+varies over a chosen time period so that I can decide how the distribution of employees will likely need to be adjusted 
 over that time period according how much the number of journeys varies. [New user story]
 ##### Question answered:
 * How much variation is there in TFL usage for each travel mode over a chosen time period?
@@ -99,7 +99,7 @@ time allows the data to be viewed in more detail by the user.
 * The minimum time period that can be displayed is one year. This is as this is it displays the yearly variation in usage, 
 an important aspect to consider when making a judgement based on TFL usage.
 * There are no additional chart elements shown beyond the title, years displayed, axis labels and key. This keeps the
-focus on the actual data and not unnecessary chartjunk.
+focus on the actual data and not unnecessary chart junk.
 ##### Evaluation 
 ##### Did it meet the design choices?
 Yes, the chart clearly indicates how much the data for each recording period varied for a chosen time period for each 
@@ -107,7 +107,7 @@ travel mode.
 ##### Strengths and weaknesses?
 * Strength: the area of each box indicates the amount of variation which makes comparisons between each travel mode
 easy to see at a first glance.
-* Weakness: the user cannot isolate data according to travel mode. This would be usfeul for TFL Associated Employees 
+* Weakness: the user cannot isolate data according to travel mode. This would be useful for TFL Associated Employees 
 only interested in specific travel modes. This could be improved by adding a checklist with a callback to select data 
 for individual travel modes.
 * Weakness: there is no indication of how the variation in users varies over time. This could be improved by adding a 
@@ -137,7 +137,7 @@ time allows the data to be viewed in more detail by the user.
 * The minimum time period that can be displayed is one year. This is as this is it displays the yearly variation in 
 usage, an important aspect to consider when making a judgement based on TFL usage.
 * There are no additional chart elements shown beyond the title, years displayed, axis labels and key. This keeps the
-focus on the actual data and not unnecessary chartjunk.
+focus on the actual data and not unnecessary chart junk.
 ##### Evaluation 
 ##### Did it meet the design choices?
 Yes, the chart clearly show the proportion that each travel mode takes of the total TFL usage.
