@@ -53,7 +53,7 @@ dropdown = [
                  options=[{"label": x, "value": x} for x in df.years_list],
                  multi=True,
                  value=df.years_list[0],
-                 style={'width': '60%'}
+                 style={'width': '70%'}
                  )
 ]
 
@@ -100,6 +100,8 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
         )
     ])
 ])
+
+# App callback
 
 
 @app.callback([Output("box", "figure"),
