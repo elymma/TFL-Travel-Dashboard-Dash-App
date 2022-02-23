@@ -38,24 +38,28 @@ an important aspect to consider when making a judgement based on TFL usage.
 focus on the actual data and not unnecessary chartjunk.
 ##### Evaluation 
 ##### Did it meet the design choices?
+
 ##### Strengths and weaknesses?
 * Weakness: when multiple non-consecutive years are chosen to be displayed (e.g. 2010, 2014 and 2018), they are joined 
 by a straight line that does not accurately represent the usage over the unselected time period. This could be improved 
 by only allowing the user to select consecutive time periods e.g. 2010, 2011 and 2013 but not 2010, 2013 and 2017.
 ##### Any improvements?
 
-#### Visualisation 2: [Stats Chart Title]
+#### Visualisation 2: Statistics Panel
 ##### Target audience:
 * TFL Associated Employee: As a licenced TfL busker (TfL Associated Employee), I want to know when in the year the usage 
 of London Underground peaks so that I can apply for performance slots that will expose me to the highest number of 
 people. [User story 02]
 ##### Question answered:
-* fill in later
+* In which recording period and for what travel mode did TFL usage peak over a chosen time period?
 ##### Data needed:
-* fill in later
+* TFL Data for all travel modes and recording periods
 ##### Type of chart:
-* Stats chart
+* N/A
 ##### Visual design aspects:
+* The data from the data frame was formatted to be more readable. E.g. the datetime format was converted to a d/m/y 
+format and the number of journeys was rounded to 1 decimal place. This made the data easier to understand as it is in a
+format that is familiar to most people.
 ##### Evaluation 
 ##### Did it meet the design choices?
 ##### Strengths and weaknesses?
@@ -122,3 +126,8 @@ focus on the actual data and not unnecessary chartjunk.
 ##### Strengths and weaknesses?
 ##### Any improvements?
 
+### References
+
+https://stackoverflow.com/questions/33440640/python-pandas-pandas-core-groupby-dataframegroupby-object-at
+https://stackoverflow.com/questions/20461165/how-to-convert-index-of-a-pandas-dataframe-into-a-column
+https://medium.com/analytics-vidhya/valueerror-lengths-must-match-to-compare-when-adding-more-than-2-options-in-dropdown-3b4e0a5c77d4
