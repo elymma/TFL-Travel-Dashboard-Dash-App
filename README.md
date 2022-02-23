@@ -6,14 +6,12 @@
 
 ### Overall design
 
-The design choices made for this dashboard were inspired by the Alberto Cairo's work on graphics lies misleading visuals 
+The design choices made for this dashboard were inspired by Alberto Cairo's work on graphics lies misleading visuals 
 and aimed to recreate the simple and clean layout of websites such as the Google homepage and the Apple website homepage.
-
-design choices, less is more, chartjunk, bootstrap etc
 
 ### Visualisation design
 
-#### Visualisation 1: Travel Mode usage Over Time
+#### Visualisation 1: Travel Mode Usage Over Time
 ##### Target audience: 
 * TFL Associated Employee: As the manager responsible for hiring bus drivers for TfL (TfL Associated Employee), I want 
 to know when in the year bus usage is the lowest so that I can reduce the number of new hires in these periods. [User 
@@ -33,7 +31,7 @@ for each travel mode over time and how overall usage varies between each travel 
 * The data set contains 12 years of TFL usage data and displaying this all at once could obscure important aspects of
 the data as yearly trends would be harder to recognise. The choice choose how many years of data can be displayed at a 
 time allows the data to be viewed in more detail by the user. 
-* The minimum time period that can be displayed is 1 year. This is as this is it displays the yearly variation in usage, 
+* The minimum time period that can be displayed is one year. This is as this is it displays the yearly variation in usage, 
 an important aspect to consider when making a judgement based on TFL usage.
 * There are no additional chart elements shown beyond the title, years displayed, axis labels and key. This keeps the
 focus on the actual data and not unnecessary chartjunk.
@@ -41,7 +39,7 @@ focus on the actual data and not unnecessary chartjunk.
 ##### Did it meet the design choices?
 Yes, this chart allows the user to see the variation in usage for each travel mode over a chosen time period.
 ##### Strengths and weaknesses?
-* Strengths: the user can choose to display between one and eleven years of data and can compare usage between different 
+* Strengths: the user can choose to display between one and 12 years of data and can compare usage between different 
 travel modes.
 * Weakness: when multiple non-consecutive years are chosen to be displayed (e.g. 2010, 2014 and 2018), they are joined 
 by a straight line that does not accurately represent the usage over the unselected time period. This could be improved 
@@ -59,7 +57,7 @@ people. [User story 02]
 ##### Question answered:
 * In which recording period and for what travel mode did TFL usage peak over a chosen time period?
 ##### Data needed:
-* TFL Data for all travel modes and recording periods
+* TFL Data for all travel modes and recording periods.
 ##### Type of chart:
 * N/A
 ##### Visual design aspects:
@@ -71,7 +69,7 @@ format that is familiar to most people.
 Partially yes, the panel shows very basic stats from the data, the busiest and quietest recording periods out of all the
 travel modes.
 ##### Strengths and weaknesses?
-*Strength: the panel gives an easy-to-read summary of the data from the charts, allowing the user to find the highest
+* Strength: the panel gives an easy-to-read summary of the data from the charts, allowing the user to find the highest
 and lowest periods without having to deeply study the data points from the charts.
 * Weakness: the statistics do not show much more than what can be deducted from the other charts, making it somewhat 
 redundant. To improve the use of the stats panel, the data could be manipulated. E.g. the highest and lowest recording
@@ -83,9 +81,9 @@ period could be displayed for each travel mode and compared to the values of the
 varies over a chosen time period so that I can decide how the distribution of emplyees will likely need to be adjusted 
 over that time period according how much the number of journeys varies. [New user story]
 ##### Question answered:
-* How much variation is there in TFL usage for each travel mode over a chosen time period.
+* How much variation is there in TFL usage for each travel mode over a chosen time period?
 ##### Data needed:
-* TFL usage data for all time periods and all travel modes.
+* TFL usage data for all recording periods and all travel modes.
 ##### Type of chart:
 * Box-whisker chart
 ##### Visual design aspects:
@@ -98,7 +96,7 @@ need for the use of numbers.
 * The data set contains 12 years of TFL usage data and displaying this all at once could obscure important aspects of
 the data as yearly trends would be harder to recognise. The choice choose how many years of data can be displayed at a 
 time allows the data to be viewed in more detail by the user. 
-* The minimum time period that can be displayed is 1 year. This is as this is it displays the yearly variation in usage, 
+* The minimum time period that can be displayed is one year. This is as this is it displays the yearly variation in usage, 
 an important aspect to consider when making a judgement based on TFL usage.
 * There are no additional chart elements shown beyond the title, years displayed, axis labels and key. This keeps the
 focus on the actual data and not unnecessary chartjunk.
@@ -127,7 +125,7 @@ according to the number of current users. [User story 01]
 ##### Type of chart:
 * Pie chart
 ##### Visual design aspects:
-* Colour coded lines to distinguish between travel modes.
+* Colour coded areas to distinguish between travel modes.
 * Title describing what aspect of the data is being visualised, in this case the proportion each travel mode takes of
 the total TFL usage.
 * Subtitle indicating what time periods are currently displayed on the figure.
@@ -136,19 +134,19 @@ mode.
 * The data set contains 12 years of TFL usage data and displaying this all at once could obscure important aspects of
 the data as yearly trends would be harder to recognise. The choice choose how many years of data can be displayed at a 
 time allows the data to be viewed in more detail by the user. 
-* The minimum time period that can be displayed is 1 year. This is as this is it displays the yearly variation in usage, 
-an important aspect to consider when making a judgement based on TFL usage.
+* The minimum time period that can be displayed is one year. This is as this is it displays the yearly variation in 
+usage, an important aspect to consider when making a judgement based on TFL usage.
 * There are no additional chart elements shown beyond the title, years displayed, axis labels and key. This keeps the
 focus on the actual data and not unnecessary chartjunk.
 ##### Evaluation 
 ##### Did it meet the design choices?
 Yes, the chart clearly show the proportion that each travel mode takes of the total TFL usage.
 ##### Strengths and weaknesses?
-* Strength: the use of coloured area to represent the proportion of a circle makes the data easier to understand and first glance 
-and the percentage labels give a more accurate indication of the proportions.
+* Strength: the use of coloured area to represent the proportion of a circle makes the data easier to understand at 
+first glance and the percentage labels give a more accurate indication of the proportions.
 * Weakness: there is no indication of how the proportions in users changes over time. This could be improved by adding a 
 statistics panel to display the percentage change compared to the year before or by another chart type such as a stacked
-bar chart which would display the proportions and how the change over time.
+bar chart which would display the proportions and how they change over time.
 
 
 ### References
