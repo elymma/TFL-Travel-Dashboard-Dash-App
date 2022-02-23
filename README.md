@@ -60,6 +60,7 @@ people. [User story 02]
 ##### Did it meet the design choices?
 ##### Strengths and weaknesses?
 ##### Any improvements?
+compare between years
 
 #### Visualisation 3: Variation in Travel Modes
 ##### Target audience:

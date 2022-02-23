@@ -9,17 +9,15 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objs as go
 
+
 external_stylesheets = [dbc.themes.LUX]
-
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+background = "#F8F9F9"
 
-# ------------------------------------------------------------------------
+# data processing and chart creation
+
 # import data
 df = pd.read_excel("cleaned_tfl_dataset_EDIT.xlsx")
-
-# create lists of travel modes
-df.transport_list = df["Travel Mode"].unique().tolist()
-
 # group dataset by recording period year
 df.by_year = df.groupby(df["Period ending"].map(lambda x: x.year))
 # sum the number of journeys for each year
@@ -28,94 +26,68 @@ df.by_year_sums = df.by_year.sum()
 df.by_year_sums.reset_index(level=0, inplace=True)
 # create a list of the years
 df.years_list = df.by_year_sums["Period ending"].tolist()
-
 # create charts
-fig_line = px.line(df, x="Period ending", y="Journeys (m)", color="Travel Mode",
-                   title="Travel Mode Usage Over Time")
+fig_line = px.line(df, x="Period ending", y="Journeys (m)", color="Travel Mode", title="Travel Mode Usage Over Time")
 fig_pie = px.pie(df, values="Journeys (m)", names="Travel Mode", title="Distribution of Travel Modes")
 fig_box = px.box(df, x="Travel Mode", y="Journeys (m)", color="Travel Mode", title="Variation in Travel Modes")
-# ------------------------------------------------------------------------
-# app layout
+
+# app components and layout
 
 # create website header
 header = [
-
     dbc.Row([
-
         dbc.Col(html.Div(
             dbc.Button("[logo]", outline=True, color="secondary"),
         ), lg=2),
-
         dbc.Col(html.Div([
             html.H1("TFL TRAVEL DASHBOARD")]), width={"size": 6}),
-
         dbc.Col(html.Div([
             dbc.Button("message", outline=True, color="secondary"),
             dbc.Button("profile", outline=True, color="secondary"),
             dbc.Button("log out", outline=True, color="secondary"),
-        ],
-        ), lg=4),
+        ]), lg=4),
     ])
 ]
 
+# create dropdown
 dropdown = [
     dcc.Dropdown(id="select-year",
                  options=[{"label": x, "value": x} for x in df.years_list],
                  multi=True,
                  value=df.years_list[0],
                  style={'width': '60%'}
-                 ),
+                 )
 ]
-
-checklist = [
-    dcc.Checklist(id="select-travel-mode",
-                  options=[{"label": x, "value": x} for x in df.transport_list],
-                  labelStyle={'display': 'inline-block'},
-                  style={'width': '60%'}
-
-                  ),
-]
-
-background = "#F8F9F9"
 
 app.layout = html.Div(style={"backgroundColor": background}, children=[
 
     dbc.Container([
-
         dbc.Row(
             html.Br()
         ),
-
         dbc.Row(
             header,
             justify="between",
         ),
-
         dbc.Row(
             html.Br()
         ),
-
         dbc.Row([
             dbc.Col(dropdown, lg=6, xs=12),
             dbc.Col(html.Div(id="dd_output_container")),
-            # dbc.Col(checklist)
         ]),
-
         dbc.Row(
             html.Br()
         ),
-
         dbc.Row([
             dbc.Col(html.Div([dcc.Graph(id="line", figure=fig_line)], style={"border": "1px Gainsboro solid"}), lg=8,
                     xs=12),
             dbc.Col(html.Div(
-                html.Div(id="stats-card", style={"border": "1px Gainsboro solid"})))
+                html.Div(id="stats-card", style={"border": "1px Gainsboro solid"})), lg=4, xs=12)
         ]),
-
         dbc.Row(
             html.Br()
         ),
-
         dbc.Row([
             dbc.Col(html.Div([dcc.Graph(id="box", figure=fig_box)], style={"border": "1px Gainsboro solid"}),
                     lg=6,
@@ -124,11 +96,9 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
                     lg=6,
                     xs=12),
         ]),
-
         dbc.Row(
             html.Br()
-        ),
-
+        )
     ])
 ])
 
@@ -139,17 +109,6 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
                Output("stats-card", "children")],
               Input("select-year", "value"))
 def update_tfl_chart(year_select):
-    # create copy of data set
-    # df.chosen_travel_mode = df.copy()
-    # select data for chosen travel mode
-    # df.total_travel = []
-    # if travel_select is not None:
-    #    for x in travel_select:
-    #        df.chosen_travel = df[df["Travel Mode"].str.contains(x)]
-    #        df.total_travel.append(df.chosen_travel)
-    # create a copy of the travel-sorted dataset
-    # df.chosen_year = df.total_travel.copy()
-
     # create a copy of dataset
     df.chosen_year = df.copy()
     # select data for chosen year
@@ -169,28 +128,51 @@ def update_tfl_chart(year_select):
     # order data in descending/ascending order
     desc_order = df.chosen_year.sort_values("Journeys (m)", ascending=False)
     asc_order = df.chosen_year.sort_values("Journeys (m)", ascending=True)
-    # find the highest and lowest recording periods
-    max_journeys = desc_order.iloc[0, 4]
-    max_period_b = desc_order.iloc[0, 1]
-    max_period_e = desc_order.iloc[0, 2]
-    max_mode = desc_order.iloc[0, 3]
+    # check if any years have been selected
+    if type(year_select) != int and len(year_select) == 0:
+        # generate an empty stats card if no year is chosen
+        stats_card = dbc.Card(className="bg-light text-dark", children=[
+            dbc.CardBody([
+                html.H3("Statistics Panel".format(year_select), id="card-name", className="card-title"),
+                html.H6("No statistics to be shown"),
+                html.Br(),
 
-    lowest = asc_order.iloc[0, 4]
-    # create stats card
-    stats_card = dbc.Card(className="bg-dark text-light", children=[
-        dbc.CardBody([
-            html.H4(year_select, id="card-name", className="card-title"),
-            html.Br(),
-            html.H6("High is:", className="card-title"),
-            html.H4("The recording period with the most journeys was {} to {} with {} million journeys using the {}".format(max_period_b, max_period_e, max_journeys, max_mode), className="card-text text-light"),
-            html.Br(),
-            html.H6("Low is:", className="card-title"),
-            html.H4("lowest {}".format(lowest), className="card-text text-light"),
-            html.Br(),
-
-        ])
-    ])
-
+            ])
+        ], color="light")
+    else:
+        # store data for the highest and lowest recording periods
+        max_journeys = desc_order.iloc[0, 4]
+        max_period_b = desc_order.iloc[0, 1]
+        max_period_e = desc_order.iloc[0, 2]
+        max_mode = desc_order.iloc[0, 3]
+        min_journeys = asc_order.iloc[0, 4]
+        min_period_b = asc_order.iloc[0, 1]
+        min_period_e = asc_order.iloc[0, 2]
+        min_mode = asc_order.iloc[0, 3]
+        # generate a filled out stats card if at least one year is chosen
+        stats_card = dbc.Card(className="bg-light text-dark", children=[
+            dbc.CardBody([
+                html.H3("Statistics Panel".format(year_select), id="card-name", className="card-title"),
+                html.H6("Year(s) shown: {}".format(year_select)),
+                html.Br(),
+                html.H5("Busiest Period:", className="card-title"),
+                html.H6("The recording period with the most journeys was {} to {}.".format(
+                    max_period_b.strftime("%d/%m/%Y"), max_period_e.strftime("%d/%m/%Y")),
+                        className="card-text text-dark"),
+                html.Br(),
+                html.H6("There were {} million journeys using the {}.".format(format(max_journeys, ".1f"), max_mode),
+                        className="card-text text-dark"),
+                html.Br(),
+                html.H5("Quietest Period:", className="card-title"),
+                html.H6("The recording period with the least journeys was {} to {}.".format(
+                    min_period_b.strftime("%d/%m/%Y"), min_period_e.strftime("%d/%m/%Y")),
+                        className="card-text text-dark"),
+                html.Br(),
+                html.H6("There were {} million journeys using the {}.".format(format(min_journeys, ".1f"), min_mode),
+                        className="card-text text-dark"),
+                html.Br()
+            ])
+        ], color="light")
     return fig_box_update, fig_pie_update, fig_line_update, stats_card
 
 
