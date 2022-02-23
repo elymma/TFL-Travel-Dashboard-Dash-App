@@ -146,14 +146,24 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
                Output("line", "figure")],
               [Input("select-year", "value"), Input("select-travel-mode", "value")])
 def update_tfl_chart(year_select, travel_select):
+    # create copy of data set
+    df.chosen_travel_mode = df.copy()
+    # select data for chosen travel mode
+    df.total_travel = []
+    if travel_select is not None:
+        for x in travel_select:
+            df.chosen_travel = df[df["Travel Mode"].str.contains(x)]
+            df.total_travel.append(df.chosen_travel)
+    # create a copy of the travel-sorted dataset
+    # df.chosen_year = df.total_travel.copy()
     # create a copy of dataset
     df.chosen_year = df.copy()
     # select data for chosen year
     if type(year_select) != int:
         # when there is a list of year values
-        df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year .isin(year_select)]
+        df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year.isin(year_select)]
     else:
-        # when there is only on year value
+        # when there is only one year value
         df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year == year_select]
     # create figures
     fig_box_update = px.box(df.chosen_year, x="Travel Mode", y="Journeys (m)", color="Travel Mode",

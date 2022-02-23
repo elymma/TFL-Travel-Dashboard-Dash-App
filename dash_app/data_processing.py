@@ -20,22 +20,24 @@ year = [2020, 2021]
 # fig_box = px.box(df.chosen_year, x="Travel Mode", y="Journeys (m)", color="Travel Mode", title="Variation in Travel Modes for {}".format(year))
 # fig_box.show()
 
-if type(year) != int:
-    # when there is a list of year values
-    df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year.isin(year)]
-else:
-    # when there is only on year value
-    df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year == year]
+# if type(year) != int:
+#    # when there is a list of year values
+#    df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year.isin(year)]
+# else:
+#    # when there is only on year value
+#    df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year == year]
 
-print(df.chosen_year)
+# print(df.chosen_year)
+
+df.total_travel = []
+travel = []
+print(len(travel))
+for x in travel:
+    df.chosen_travel = df[df["Travel Mode"].str.contains(x)]
+    df.total_travel.append(df.chosen_travel)
 
 
-travel = "Bus"
-
-df.chosen_travel = df[df["Travel Mode"].str.contains(travel)]
-
-#print(df.chosen_travel)
-
+# print(df.total_travel)
 
 # dates_2017 = list(filter(lambda x: x.year == 2017, df.periods_list))
 
@@ -43,13 +45,13 @@ df.chosen_travel = df[df["Travel Mode"].str.contains(travel)]
 
 
 # group dataset by year
-df.by_year = df.groupby(df["Period ending"].map(lambda x: x.year))
+# df.by_year = df.groupby(df["Period ending"].map(lambda x: x.year))
 # sum the number of journeys for each year
-df.by_year_sums = df.by_year.sum()
+# df.by_year_sums = df.by_year.sum()
 # convert index ("Period ending") to a column
-df.by_year_sums.reset_index(level=0, inplace=True)
+# df.by_year_sums.reset_index(level=0, inplace=True)
 # create a list of the years
-df.years_list = df.by_year_sums["Period ending"].tolist()
+# df.years_list = df.by_year_sums["Period ending"].tolist()
 
 # print(df.years_list)
 
