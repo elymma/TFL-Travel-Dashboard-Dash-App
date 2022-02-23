@@ -4,9 +4,10 @@
 
 ## TFL Travel Dashboard
 
-quick intro?
-
 ### Overall design
+
+The design choices made for this dashboard were inspired by the Alberto Cairo's work on graphics lies misleading visuals 
+and aimed to recreate the simple and clean layout of websites such as the Google homepage and the Apple website homepage.
 
 design choices, less is more, chartjunk, bootstrap etc
 
@@ -38,12 +39,17 @@ an important aspect to consider when making a judgement based on TFL usage.
 focus on the actual data and not unnecessary chartjunk.
 ##### Evaluation 
 ##### Did it meet the design choices?
-
+Yes, this chart allows the user to see the variation in usage for each travel mode over a chosen time period.
 ##### Strengths and weaknesses?
+* Strengths: the user can choose to display between one and eleven years of data and can compare usage between different 
+travel modes.
 * Weakness: when multiple non-consecutive years are chosen to be displayed (e.g. 2010, 2014 and 2018), they are joined 
 by a straight line that does not accurately represent the usage over the unselected time period. This could be improved 
 by only allowing the user to select consecutive time periods e.g. 2010, 2011 and 2013 but not 2010, 2013 and 2017.
-##### Any improvements?
+* Weakness: the user cannot isolate data according to travel mode. This would be usfeul for TFL Associated Employees 
+only interested in specific travel modes. This could be improved by adding a checklist with a callback to select data 
+for individual travel modes.
+
 
 #### Visualisation 2: Statistics Panel
 ##### Target audience:
@@ -62,9 +68,14 @@ format and the number of journeys was rounded to 1 decimal place. This made the 
 format that is familiar to most people.
 ##### Evaluation 
 ##### Did it meet the design choices?
+Partially yes, the panel shows very basic stats from the data, the busiest and quietest recording periods out of all the
+travel modes.
 ##### Strengths and weaknesses?
-##### Any improvements?
-compare between years
+*Strength: the panel gives an easy-to-read summary of the data from the charts, allowing the user to find the highest
+and lowest periods without having to deeply study the data points from the charts.
+* Weakness: the statistics do not show much more than what can be deducted from the other charts, making it somewhat 
+redundant. To improve the use of the stats panel, the data could be manipulated. E.g. the highest and lowest recording
+period could be displayed for each travel mode and compared to the values of the year before.
 
 #### Visualisation 3: Variation in Travel Modes
 ##### Target audience:
@@ -93,8 +104,16 @@ an important aspect to consider when making a judgement based on TFL usage.
 focus on the actual data and not unnecessary chartjunk.
 ##### Evaluation 
 ##### Did it meet the design choices?
+Yes, the chart clearly indicates how much the data for each recording period varied for a chosen time period for each 
+travel mode.
 ##### Strengths and weaknesses?
-##### Any improvements?
+* Strength: the area of each box indicates the amount of variation which makes comparisons between each travel mode
+easy to see at a first glance.
+* Weakness: the user cannot isolate data according to travel mode. This would be usfeul for TFL Associated Employees 
+only interested in specific travel modes. This could be improved by adding a checklist with a callback to select data 
+for individual travel modes.
+* Weakness: there is no indication of how the variation in users varies over time. This could be improved by adding a 
+statistics panel to display the percentage change compared to the year before.
 
 #### Visualisation 4: Distribution of Travel Modes
 ##### Target audience:
@@ -123,11 +142,18 @@ an important aspect to consider when making a judgement based on TFL usage.
 focus on the actual data and not unnecessary chartjunk.
 ##### Evaluation 
 ##### Did it meet the design choices?
+Yes, the chart clearly show the proportion that each travel mode takes of the total TFL usage.
 ##### Strengths and weaknesses?
-##### Any improvements?
+* Strength: the use of coloured area to represent the proportion of a circle makes the data easier to understand and first glance 
+and the percentage labels give a more accurate indication of the proportions.
+* Weakness: there is no indication of how the proportions in users changes over time. This could be improved by adding a 
+statistics panel to display the percentage change compared to the year before or by another chart type such as a stacked
+bar chart which would display the proportions and how the change over time.
+
 
 ### References
 
+https://faculty.ucmerced.edu/jvevea/classes/Spark/readings/Cairo2015_Chapter_GraphicsLiesMisleadingVisuals.pdf
 https://stackoverflow.com/questions/33440640/python-pandas-pandas-core-groupby-dataframegroupby-object-at
 https://stackoverflow.com/questions/20461165/how-to-convert-index-of-a-pandas-dataframe-into-a-column
 https://medium.com/analytics-vidhya/valueerror-lengths-must-match-to-compare-when-adding-more-than-2-options-in-dropdown-3b4e0a5c77d4
