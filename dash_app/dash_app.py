@@ -1,39 +1,37 @@
 # Run this app with `python dash_app.py` and visit http://127.0.0.1:8050/ in your web browser.
-from pathlib import Path
 
 import dash
-from dash import html, Output, Input, dcc
+from dash import html, Output, Input
 from dash import dcc
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objs as go
 
-
+# App styling details
 external_stylesheets = [dbc.themes.LUX]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 background = "#F8F9F9"
 
-# data processing and chart creation
+# Data processing and chart creation
 
-# import data
+# Import data
 df = pd.read_excel("cleaned_tfl_dataset_EDIT.xlsx")
-# group dataset by recording period year
+# Group dataset by recording period year
 df.by_year = df.groupby(df["Period ending"].map(lambda x: x.year))
-# sum the number of journeys for each year
+# Sum the number of journeys for each year
 df.by_year_sums = df.by_year.sum()
-# convert index ("Period ending") to a column
+# Convert index ("Period ending") to a column
 df.by_year_sums.reset_index(level=0, inplace=True)
-# create a list of the years
+# Create a list of the years
 df.years_list = df.by_year_sums["Period ending"].tolist()
-# create charts
+# Create the figures
 fig_line = px.line(df, x="Period ending", y="Journeys (m)", color="Travel Mode", title="Travel Mode Usage Over Time")
 fig_pie = px.pie(df, values="Journeys (m)", names="Travel Mode", title="Distribution of Travel Modes")
 fig_box = px.box(df, x="Travel Mode", y="Journeys (m)", color="Travel Mode", title="Variation in Travel Modes")
 
-# app components and layout
+# App components and layout
 
-# create website header
+# Create website header
 header = [
     dbc.Row([
         dbc.Col(html.Div(
@@ -49,7 +47,7 @@ header = [
     ])
 ]
 
-# create dropdown
+# Create dropdown
 dropdown = [
     dcc.Dropdown(id="select-year",
                  options=[{"label": x, "value": x} for x in df.years_list],
@@ -59,6 +57,7 @@ dropdown = [
                  )
 ]
 
+# Create app layout
 app.layout = html.Div(style={"backgroundColor": background}, children=[
 
     dbc.Container([
@@ -109,28 +108,28 @@ app.layout = html.Div(style={"backgroundColor": background}, children=[
                Output("stats-card", "children")],
               Input("select-year", "value"))
 def update_tfl_chart(year_select):
-    # create a copy of dataset
+    # Create a copy of dataset
     df.chosen_year = df.copy()
-    # select data for chosen year
+    # Select the data for chosen year
     if type(year_select) != int:
-        # when there is a list of year values
+        # For when there is a list of year values
         df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year.isin(year_select)]
     else:
-        # when there is only one year value
+        # For when there is only one year value
         df.chosen_year = df.chosen_year[df.chosen_year["Period ending"].dt.year == year_select]
-    # create figures
+    # Create figures
     fig_box_update = px.box(df.chosen_year, x="Travel Mode", y="Journeys (m)", color="Travel Mode",
                             title="Variation in Travel Modes<br><sup>Year(s) shown: {}</sup>".format(year_select))
     fig_pie_update = px.pie(df.chosen_year, values="Journeys (m)", names="Travel Mode",
                             title="Distribution of Travel Modes<br><sup>Year(s) shown: {}</sup>".format(year_select))
     fig_line_update = px.line(df.chosen_year, x="Period ending", y="Journeys (m)", color="Travel Mode",
                               title="Travel Mode Usage Over Time<br><sup>Year(s) shown: {}</sup>".format(year_select))
-    # order data in descending/ascending order
+    # Order data in descending/ascending order
     desc_order = df.chosen_year.sort_values("Journeys (m)", ascending=False)
     asc_order = df.chosen_year.sort_values("Journeys (m)", ascending=True)
-    # check if any years have been selected
+    # Check if any years have been selected
     if type(year_select) != int and len(year_select) == 0:
-        # generate an empty stats card if no year is chosen
+        # Generate an empty stats card if no year is chosen
         stats_card = dbc.Card(className="bg-light text-dark", children=[
             dbc.CardBody([
                 html.H3("Statistics Panel".format(year_select), id="card-name", className="card-title"),
@@ -140,7 +139,7 @@ def update_tfl_chart(year_select):
             ])
         ], color="light")
     else:
-        # store data for the highest and lowest recording periods
+        # If at least one year is chosen, store the data for the highest and lowest recording periods
         max_journeys = desc_order.iloc[0, 4]
         max_period_b = desc_order.iloc[0, 1]
         max_period_e = desc_order.iloc[0, 2]
@@ -149,7 +148,7 @@ def update_tfl_chart(year_select):
         min_period_b = asc_order.iloc[0, 1]
         min_period_e = asc_order.iloc[0, 2]
         min_mode = asc_order.iloc[0, 3]
-        # generate a filled out stats card if at least one year is chosen
+        # Generate a filled out stats card with the data in readable formats
         stats_card = dbc.Card(className="bg-light text-dark", children=[
             dbc.CardBody([
                 html.H3("Statistics Panel".format(year_select), id="card-name", className="card-title"),
